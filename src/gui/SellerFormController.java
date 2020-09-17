@@ -3,9 +3,9 @@ package gui;
 import java.awt.geom.IllegalPathStateException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -155,9 +155,15 @@ public class SellerFormController implements Initializable {
 		Locale.setDefault(Locale.US);
 		txtBaseSalary.setText(String.format("%.2f", entity.getBaseSalary()));
 		if (entity.getBirthDate() != null) {
-			dpBirthDate.setValue(LocalDate.of(entity.getBirthDate().getYear(), entity.getBirthDate().getMonth(), entity.getBirthDate().getDay()));
+			dpBirthDate.setValue(this.dateToLocalDate(entity.getBirthDate()));
 		}
 	}
+	
+	// forma para resolver a data acima..
+	private LocalDate dateToLocalDate(Date data) {
+        LocalDate localDate = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return localDate;
+    }
 
 	private void setErrorMessages(Map<String, String> errors) {
 		Set<String> fields = errors.keySet();
